@@ -1,6 +1,9 @@
 # hood-alerts
 
 [![license](https://img.shields.io/badge/license-MIT-93a1af?labelColor=101418)](./LICENSE)
+[![Run on Google Cloud](https://deploy.cloud.run/button.svg)](https://deploy.cloud.run?git_repo=https://github.com/nirholas/robinhood-chain-alert-bot)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/nirholas/robinhood-chain-alert-bot)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/nirholas/robinhood-chain-alert-bot)
 
 The alert layer for **Robinhood Chain** (chain ID 4663): Telegram and Discord bots, plus optional
 X (Twitter) auto-posting, backed by one shared detection engine that watches launches, graduations,
@@ -229,33 +232,36 @@ single `viem` resolves, the cast is a no-op.
 ## Deploy
 
 hood-alerts is one long-running process (engine + HTTP server + both bots), so run it as a service
-with a warm instance, not a job.
-
-Because the sibling packages are `file:` links, the Docker build context is the **parent
-`robinhood/` directory** so they resolve:
+with a warm instance, not a job. `hoodchain`/`hoodkit`/`hood402` are ordinary published npm
+dependencies (see `package.json`) — the Docker build needs no special context, just this directory:
 
 ```sh
-# from robinhood/ (the parent of hood-alerts/)
-docker build -f hood-alerts/Dockerfile -t hood-alerts .
+docker build -t hood-alerts .
+docker run -p 8080:8080 -v hood-alerts-data:/data hood-alerts
 
 gcloud run deploy hood-alerts \
-  --image=REGION-docker.pkg.dev/PROJECT/repo/hood-alerts:latest \
+  --source . \
+  --region us-central1 \
   --min-instances=1 --no-cpu-throttling --port=8080 \
   --set-env-vars=HOOD_ALERTS_TELEGRAM_TOKEN=…,HOOD_ALERTS_DISCORD_TOKEN=…,HOOD_ALERTS_DISCORD_APP_ID=…
 ```
 
-Mount a volume at `/data` (the default `HOOD_ALERTS_DB` path) so subscriptions, entitlements, and
-the delivery log survive restarts. The container answers `GET /healthz`; `SIGTERM` flushes pending
-digests before exit. Once the siblings are published to npm, switch the `file:` specs in
-`package.json` and the image builds from the `hood-alerts/` directory alone. Full self-host and
-premium-wiring guide: the `docs/` site.
+The **Run on Google Cloud** button above does this for you. Mount a volume at `/data` (the default
+`HOOD_ALERTS_DB` path) so subscriptions, entitlements, and the delivery log survive restarts. The
+container answers `GET /healthz` (confirmed: real on-chain pool discovery finishes and the server
+starts serving within ~10s of boot); `SIGTERM` flushes pending digests before exit. Full self-host
+and premium-wiring guide: the `docs/` site.
 
-## Docs site (GitHub Pages)
+## Docs site (GitHub Pages, Cloudflare, or Vercel)
 
 `docs/` is a static, hand-built site (no framework, no build step): open `docs/index.html` locally,
-or serve it from GitHub Pages. Its landing page renders a **live** premium/discount feed client-side
-straight from the public RPC (real Chainlink feeds vs real DEX pools, no server). One-time setup:
-Settings -> Pages -> Deploy from a branch -> `main` -> `/docs`.
+or serve it from any static host. Its landing page renders a **live** premium/discount feed
+client-side straight from the public RPC (real Chainlink feeds vs real DEX pools, no server).
+
+- **GitHub Pages** (default, canonical home): `Settings → Pages → Deploy from a branch → main →
+  /docs` → <https://nirholas.github.io/robinhood-chain-alert-bot/>.
+- **Cloudflare** / **Vercel**: click the buttons above — `wrangler.json`/`vercel.json` at the repo
+  root point both at `docs/`, no build command needed.
 
 ## Architecture notes
 

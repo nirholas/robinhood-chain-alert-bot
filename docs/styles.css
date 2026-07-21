@@ -2,15 +2,15 @@
    True monochrome: pure near-black / near-white + 3 grays. No hue, anywhere.
    Lanes and states are distinguished by weight, dash pattern, and glyph — never color. */
 :root {
-  --bg: #06070a;
-  --bg-elev: #0d0f13;
-  --bg-elev-2: #15171d;
-  --border: #23262c;
-  --border-strong: #383b43;
-  --text: #f3f4f6;
-  --text-dim: #aeb2b9;
-  --text-faint: #82868f;
-  --line: #f3f4f6;
+  --bg: #080808;
+  --bg-elev: #101010;
+  --bg-elev-2: #181818;
+  --border: #272727;
+  --border-strong: #3d3d3d;
+  --text: #f4f4f4;
+  --text-dim: #b3b3b3;
+  --text-faint: #888888;
+  --line: #f4f4f4;
   --radius: 10px;
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
