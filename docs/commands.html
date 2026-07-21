@@ -4,27 +4,59 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Commands · hood-alerts</title>
-  <meta name="description" content="Full command reference for the hood-alerts Telegram and Discord bots on Robinhood Chain." />
+  <meta name="description" content="Full command reference for the hood-alerts Telegram and Discord bots on Robinhood Chain: watch, unwatch, list, threshold, digest, quiet, premium, and help." />
+  <link rel="canonical" href="https://nirholas.github.io/robinhood-chain-alert-bot/commands.html" />
+  <meta name="theme-color" content="#06070a" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="hood-alerts" />
+  <meta property="og:title" content="Commands · hood-alerts" />
+  <meta property="og:description" content="Full command reference for the hood-alerts Telegram and Discord bots on Robinhood Chain." />
+  <meta property="og:url" content="https://nirholas.github.io/robinhood-chain-alert-bot/commands.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Commands · hood-alerts" />
+  <meta name="twitter:description" content="watch, unwatch, list, threshold, digest, quiet, premium, help — the full hood-alerts command reference." />
+  <meta name="twitter:site" content="@nichxbt" />
+
   <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "hood-alerts",
+    "description": "Full command reference for the hood-alerts Telegram and Discord bots on Robinhood Chain.",
+    "url": "https://nirholas.github.io/robinhood-chain-alert-bot/commands.html",
+    "codeRepository": "https://github.com/nirholas/robinhood-chain-alert-bot",
+    "softwareVersion": "0.2.0",
+    "license": "https://opensource.org/licenses/MIT",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "author": { "@type": "Person", "name": "nirholas", "url": "https://x.com/nichxbt" }
+  }
+  </script>
 </head>
 <body>
-  <nav class="nav">
-    <div class="wrap">
-      <span class="brand"><span class="dot"></span> hood-alerts</span>
-      <a class="link" href="index.html">Live feed</a>
-      <a class="link" href="commands.html">Commands</a>
-      <a class="link" href="premium.html">Premium</a>
-      <a class="link hide-sm" href="self-host.html">Self-host</a>
-      <span class="spacer"></span>
-      <a class="gh" href="https://github.com/nirholas/hood-alerts" target="_blank" rel="noopener">GitHub</a>
-    </div>
-  </nav>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <main class="wrap doc">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="dot"></span> hood-alerts</a>
+      <nav class="cornernav" aria-label="Site">
+        <a href="index.html">Live feed</a>
+        <a href="commands.html" aria-current="page">Commands</a>
+        <a href="premium.html">Premium</a>
+        <a href="self-host.html">Self-host</a>
+        <a class="gh" href="https://github.com/nirholas/robinhood-chain-alert-bot" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap doc" id="main">
     <h2>Command reference</h2>
     <p class="lead">The same commands work on Telegram (as <code>/watch …</code>) and Discord (as slash commands). In a group or server, config commands are limited to admins; anyone can run <code>list</code>, <code>premium</code>, and <code>help</code>.</p>
 
     <h3>Watch targets</h3>
+    <div class="table-scroll">
     <table>
       <thead><tr><th>Target</th><th>What you get</th><th>Tier</th></tr></thead>
       <tbody>
@@ -37,8 +69,10 @@
         <tr><td><code>rugs [pct]</code></td><td>Liquidity-pull rug early-warning: quote reserves dropping past a threshold. Default 30%.</td><td>Premium</td></tr>
       </tbody>
     </table>
+    </div>
 
     <h3>Managing your watches</h3>
+    <div class="table-scroll">
     <table>
       <thead><tr><th>Command</th><th>Does</th></tr></thead>
       <tbody>
@@ -52,6 +86,7 @@
         <tr><td><code>help</code></td><td>The full reference, in-chat.</td></tr>
       </tbody>
     </table>
+    </div>
 
     <h3>Examples</h3>
     <pre><code>watch launches noxa        # only NOXA launches
@@ -66,6 +101,9 @@ quiet 23 8                 # mute 23:00-08:00 UTC</code></pre>
 
     <h3>Free vs premium at a glance</h3>
     <p>Free: up to 3 subscriptions, alerts batched to a 60-second minimum. Premium: unlimited subscriptions, real-time delivery, and the <code>premiums</code> and <code>rugs</code> detectors. See <a href="premium.html">pricing</a>.</p>
+
+    <h3>See it on the instrument</h3>
+    <p>Every one of these watch targets is also a channel on the <a href="index.html#readout">signal timeline</a> — with its real config and a captured example, where one exists.</p>
   </main>
 
   <footer>

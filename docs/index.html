@@ -3,28 +3,59 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>hood-alerts · Robinhood Chain alert bots</title>
+  <title>hood-alerts — a live signal monitor for Robinhood Chain</title>
   <meta name="description" content="Real-time Telegram, Discord, and X (Twitter) alerts for Robinhood Chain (4663): memecoin launches, graduations, whale trades, Stock Token price moves, on-chain premium/discount arbitrage, holder milestones, and liquidity-pull rug warnings." />
+  <link rel="canonical" href="https://nirholas.github.io/robinhood-chain-alert-bot/" />
+  <meta name="theme-color" content="#06070a" />
   <link rel="preconnect" href="https://rpc.mainnet.chain.robinhood.com" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="hood-alerts" />
+  <meta property="og:title" content="hood-alerts — a live signal monitor for Robinhood Chain" />
+  <meta property="og:description" content="Real-time Telegram, Discord, and X alerts for Robinhood Chain (4663): launches, graduations, whale trades, Stock Token moves, on-chain premium/discount arbitrage, holder milestones, and liquidity-pull rug warnings." />
+  <meta property="og:url" content="https://nirholas.github.io/robinhood-chain-alert-bot/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="hood-alerts — a live signal monitor for Robinhood Chain" />
+  <meta name="twitter:description" content="Seven real-time detectors watching Robinhood Chain (4663), delivered to Telegram, Discord, and X." />
+  <meta name="twitter:site" content="@nichxbt" />
+
   <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "hood-alerts",
+    "description": "The alert layer for Robinhood Chain (chain ID 4663): Telegram + Discord bots and a shared detection engine for memecoin launches, graduations, whale trades, price moves, Stock Token premium/discount arbitrage, holder milestones, and liquidity-pull rug warnings. Free tier + x402 USDG premium.",
+    "url": "https://nirholas.github.io/robinhood-chain-alert-bot/",
+    "codeRepository": "https://github.com/nirholas/robinhood-chain-alert-bot",
+    "softwareVersion": "0.2.0",
+    "license": "https://opensource.org/licenses/MIT",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "author": { "@type": "Person", "name": "nirholas", "url": "https://x.com/nichxbt" }
+  }
+  </script>
 </head>
 <body>
-  <nav class="nav">
+  <a class="skip-link" href="#readout">Skip to detector reference</a>
+
+  <header class="topbar">
     <div class="wrap">
-      <span class="brand"><span class="dot"></span> hood-alerts</span>
-      <a class="link" href="index.html">Live feed</a>
-      <a class="link hide-sm" href="commands.html">Commands</a>
-      <a class="link" href="premium.html">Premium</a>
-      <a class="link hide-sm" href="self-host.html">Self-host</a>
-      <span class="spacer"></span>
-      <a class="gh" href="https://github.com/nirholas/hood-alerts" target="_blank" rel="noopener">GitHub</a>
+      <a class="brand" href="index.html"><span class="dot"></span> hood-alerts</a>
+      <nav class="cornernav" aria-label="Site">
+        <a href="index.html" aria-current="page">Live feed</a>
+        <a href="commands.html">Commands</a>
+        <a href="premium.html">Premium</a>
+        <a href="self-host.html">Self-host</a>
+        <a class="gh" href="https://github.com/nirholas/robinhood-chain-alert-bot" target="_blank" rel="noopener">GitHub</a>
+      </nav>
     </div>
-  </nav>
+  </header>
 
   <header class="hero">
     <div class="wrap">
       <span class="chip"><span class="live"></span> Live · Robinhood Chain · ID 4663</span>
-      <h1>Alerts for the chain that<br /><span class="grad">never sleeps.</span></h1>
+      <h1>Alerts for the chain that<br /><span class="accent">never sleeps.</span></h1>
       <p class="sub">Telegram and Discord bots, plus auto-posting to X (Twitter), that watch Robinhood Chain in real time: launches, graduations, whale trades, Stock Token moves, on-chain premium/discount arbitrage, holder milestones, and liquidity-pull rug warnings.</p>
       <div class="cta">
         <a class="btn primary" href="commands.html">See the commands</a>
@@ -33,79 +64,188 @@
     </div>
   </header>
 
-  <section id="live">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="kicker">Live premium detector</div>
-        <h2>What would be alerting right now</h2>
-        <p>The Stock Token arbitrage signal, computed in your browser from the public RPC. When a token's DEX mid drifts from its Chainlink oracle, premium subscribers get a card like this.</p>
-      </div>
-      <div class="feed-meta">
-        <span>Chain head <b id="live-block">…</b></span>
-        <span><b id="live-count">…</b> markets tracked</span>
-        <span>Updated <b id="live-updated">…</b></span>
-      </div>
-      <div id="live-error" class="feed-error" style="display:none"></div>
-      <div id="live-cards" class="cards">
-        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
-      </div>
-      <p class="feed-note">Read-only, live from <code>rpc.mainnet.chain.robinhood.com</code>. Prices are already Chainlink multiplier-adjusted. This is display data, not investment advice.</p>
+  <!-- ================= INSTRUMENT: the scrub timeline is the primary nav ================= -->
+  <nav class="instrument" aria-label="Detector signal timeline">
+    <div class="instrument-head">
+      <span>Seven detectors, one stream — scrub to inspect</span>
+      <span class="readout-title">→ <span id="instrument-readout-title">Launches</span></span>
     </div>
-  </section>
+    <div class="strip" id="strip"></div>
+    <div class="quickjump" aria-label="Jump to a detector">
+      <a href="#ch-launches"><span class="n">01</span> Launches</a>
+      <a href="#ch-graduations"><span class="n">02</span> Graduations</a>
+      <a href="#ch-whales"><span class="n">03</span> Whales</a>
+      <a href="#ch-stock"><span class="n">04</span> Stock moves</a>
+      <a href="#ch-premium"><span class="n">05</span> Premium / discount</a>
+      <a href="#ch-holders"><span class="n">06</span> Holder milestones</a>
+      <a href="#ch-rugs"><span class="n">07</span> Liquidity pulls</a>
+    </div>
+  </nav>
 
-  <section>
-    <div class="wrap">
-      <div class="section-head">
-        <div class="kicker">Real alerts, real chain</div>
-        <h2>Seven detectors, one stream</h2>
-        <p>Captured from live mainnet during the build. Each renders as an inline card in Telegram and a rich embed in Discord.</p>
-      </div>
-      <div class="cards">
-        <div class="card">
-          <div class="row"><span class="sym">New launch: on NOXA</span><span class="badge flat">launch</span></div>
-          <div class="prices"><span>Instant Uniswap v3 pool, no bonding curve</span><span>Creator, first pool, and block, the moment it lists</span></div>
+  <main>
+    <section id="readout">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Real alerts, real chain</div>
+          <h2>What each channel watches</h2>
+          <p>One detection engine, seven signals. Drag the strip above, click a lane, use the arrow keys, or just keep scrolling — every channel is real content, plain HTML, readable with JavaScript off.</p>
         </div>
-        <div class="card">
-          <div class="row"><span class="sym">Whale buy</span><span class="badge prem">≥ threshold</span></div>
-          <div class="prices"><span>Configurable USD floor, per-token or chain-wide</span><span>Odyssey bonding curve and Uniswap v3, valued in USD</span></div>
-        </div>
-        <div class="card">
-          <div class="row"><span class="sym">RKLB premium</span><span class="badge prem">+12.15%</span></div>
-          <div class="prices"><span>DEX mid <b>$75.32</b> vs Chainlink <b>$67.16</b></span><span>On-chain buyers paying above the oracle</span></div>
-        </div>
-        <div class="card">
-          <div class="row"><span class="sym">MSTR discount</span><span class="badge disc">-8.65%</span></div>
-          <div class="prices"><span>DEX mid <b>$85.81</b> vs Chainlink <b>$93.94</b></span><span>Trading below oracle on-chain</span></div>
-        </div>
-        <div class="card">
-          <div class="row"><span class="sym">Liquidity pull</span><span class="badge disc">rug warning</span></div>
-          <div class="prices"><span>Quote reserves dropped past your threshold</span><span>An early warning, minutes before the chart</span></div>
-        </div>
-        <div class="card">
-          <div class="row"><span class="sym">Holder milestone</span><span class="badge flat">1,000</span></div>
-          <div class="prices"><span>Crossed a holder-count milestone</span><span>Growth signal from Blockscout counters</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section>
-    <div class="wrap">
-      <div class="section-head">
-        <div class="kicker">How it works</div>
-        <h2>One engine. Both platforms. Your rules.</h2>
+        <div class="readout">
+          <article class="channel" id="ch-launches" data-id="launches">
+            <div class="ch-head"><span class="ch-index">01</span><h3>Launches</h3><span class="tag free">Free</span></div>
+            <p class="ch-desc">Every new token on NOXA and The Odyssey. Add <code>noxa</code> or <code>odyssey</code> to filter. NOXA lists straight into an instant Uniswap v3 pool, no bonding curve; The Odyssey lists onto a bonding curve. Either way you get the creator, first pool, and block, the moment it lists.</p>
+            <dl class="ch-meta">
+              <dt>Topic</dt><dd><code>launches</code> (<code>launches:noxa</code>, <code>launches:odyssey</code>)</dd>
+              <dt>Source</dt><dd>NOXA (instant Uniswap v3 pool) and The Odyssey (bonding curve)</dd>
+              <dt>Command</dt><dd><code>watch launches noxa</code></dd>
+              <dt>Config</dt><dd>No threshold — fires on every new token; filter by exchange with <code>noxa</code>/<code>odyssey</code>.</dd>
+            </dl>
+            <div class="ch-example cards">
+              <div class="card">
+                <div class="row"><span class="sym">New launch: on NOXA</span><span class="badge flat">launch</span></div>
+                <div class="prices"><span>Instant Uniswap v3 pool, no bonding curve</span><span>Creator, first pool, and block, the moment it lists</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="channel" id="ch-graduations" data-id="graduations">
+            <div class="ch-head"><span class="ch-index">02</span><h3>Graduations</h3><span class="tag free">Free</span></div>
+            <p class="ch-desc">Odyssey bonding curves that fill and migrate to a locked Uniswap v3 pool.</p>
+            <dl class="ch-meta">
+              <dt>Topic</dt><dd><code>graduations</code></dd>
+              <dt>Source</dt><dd>Odyssey curve fills and migrates to a locked Uniswap v3 pool</dd>
+              <dt>Command</dt><dd><code>watch graduations</code></dd>
+              <dt>Config</dt><dd>No threshold — a curve either graduates or it doesn't.</dd>
+            </dl>
+            <p class="ch-desc" style="font-size:13.5px;color:var(--text-faint)">No numeric example captured for this build. The channel is live and armed on mainnet — the next Odyssey curve to fill renders exactly like the launch card on channel 01.</p>
+          </article>
+
+          <article class="channel" id="ch-whales" data-id="whales">
+            <div class="ch-head"><span class="ch-index">03</span><h3>Whales</h3><span class="tag free">Free</span></div>
+            <p class="ch-desc">Trades at or above a USD threshold, chain-wide: Odyssey bonding-curve trades and Uniswap v3 swaps, valued in USD. Default $5,000.</p>
+            <dl class="ch-meta">
+              <dt>Topic</dt><dd><code>whales</code>, or per-token <code>token:0x…</code></dd>
+              <dt>Source</dt><dd>Odyssey curve trades and Uniswap v3 swaps, chain-wide, threshold in USD</dd>
+              <dt>Command</dt><dd><code>watch whales 10000</code></dd>
+              <dt>Config</dt><dd><code>HOOD_ALERTS_WHALE_FLOOR_USD</code> (default 1000) — engine-side emission floor.<br /><code>HOOD_ALERTS_WHALE_DEFAULT_USD</code> (default 5000) — default per-subscription threshold.</dd>
+            </dl>
+            <div class="ch-example cards">
+              <div class="card">
+                <div class="row"><span class="sym">Whale buy</span><span class="badge prem">≥ threshold</span></div>
+                <div class="prices"><span>Configurable USD floor, per-token or chain-wide</span><span>Odyssey bonding curve and Uniswap v3, valued in USD</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="channel" id="ch-stock" data-id="stock">
+            <div class="ch-head"><span class="ch-index">04</span><h3>Stock moves</h3><span class="tag free">Free</span></div>
+            <p class="ch-desc">A Stock Token ticker, e.g. TSLA: Chainlink price moves on a rolling window, plus on-chain premium/discount crossings.</p>
+            <dl class="ch-meta">
+              <dt>Topic</dt><dd><code>stock:SYMBOL</code></dd>
+              <dt>Source</dt><dd>Chainlink feed, rolling window, signed percent change</dd>
+              <dt>Command</dt><dd><code>watch TSLA</code></dd>
+              <dt>Config</dt><dd><code>HOOD_ALERTS_PRICE_WINDOW_S</code> (default 900s) — rolling window.<br /><code>HOOD_ALERTS_PRICE_DEFAULT_PCT</code> (default 2%) — default move threshold.</dd>
+            </dl>
+            <p class="ch-desc" style="font-size:13.5px;color:var(--text-faint)">Markets currently tracked on the <a href="#live">live readout below</a>: ASML, GME, MSTR, NVDA, QQQ, RKLB, TSM.</p>
+          </article>
+
+          <article class="channel" id="ch-premium" data-id="premium">
+            <div class="ch-head"><span class="ch-index">05</span><h3>Premium / discount</h3><span class="tag premium">Premium</span></div>
+            <p class="ch-desc">Any token trading past a premium or discount threshold vs its Chainlink oracle: DEX mid vs Chainlink feed, on a hysteresis ladder at 1/2/3/5/10/20/50%. This is the arb signal — and the same live math running in the readout below.</p>
+            <dl class="ch-meta">
+              <dt>Topic</dt><dd><code>premiums</code> (premium tier)</dd>
+              <dt>Source</dt><dd>DEX mid vs Chainlink feed, hysteresis ladder at 1/2/3/5/10/20/50%</dd>
+              <dt>Command</dt><dd><code>watch premiums 3</code></dd>
+              <dt>Config</dt><dd><code>HOOD_ALERTS_PREMIUM_POLL_S</code> (default 60s) — poll cadence.<br /><code>HOOD_ALERTS_PREMIUM_DEFAULT_PCT</code> (default 2%) — default ladder entry.</dd>
+            </dl>
+            <div class="ch-example cards">
+              <div class="card">
+                <div class="row"><span class="sym">RKLB premium</span><span class="badge prem">+12.15%</span></div>
+                <div class="prices"><span>DEX mid <b>$75.32</b> vs Chainlink <b>$67.16</b></span><span>On-chain buyers paying above the oracle</span></div>
+              </div>
+              <div class="card">
+                <div class="row"><span class="sym">MSTR discount</span><span class="badge disc">-8.65%</span></div>
+                <div class="prices"><span>DEX mid <b>$85.81</b> vs Chainlink <b>$93.94</b></span><span>Trading below oracle on-chain</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="channel" id="ch-holders" data-id="holders">
+            <div class="ch-head"><span class="ch-index">06</span><h3>Holder milestones</h3><span class="tag free">Free</span></div>
+            <p class="ch-desc">Per-token holder-count milestones, crossing 10 through 100,000, bundled into a memecoin watch.</p>
+            <dl class="ch-meta">
+              <dt>Topic</dt><dd>per-token <code>token:0x…</code></dd>
+              <dt>Source</dt><dd>Blockscout <code>token_holders_count</code>, crossing 10 through 100,000</dd>
+              <dt>Command</dt><dd><code>watch 0x…</code></dd>
+              <dt>Config</dt><dd>Fixed milestone ladder — no separate threshold env var; this rides along with a token watch.</dd>
+            </dl>
+            <div class="ch-example cards">
+              <div class="card">
+                <div class="row"><span class="sym">Holder milestone</span><span class="badge flat">1,000</span></div>
+                <div class="prices"><span>Crossed a holder-count milestone</span><span>Growth signal from Blockscout counters</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="channel" id="ch-rugs" data-id="rugs">
+            <div class="ch-head"><span class="ch-index">07</span><h3>Liquidity pulls</h3><span class="tag premium">Premium</span></div>
+            <p class="ch-desc">An early-warning rug detector: a tracked pool's quote-side (USDG/WETH) reserves dropping sharply past your threshold.</p>
+            <dl class="ch-meta">
+              <dt>Topic</dt><dd><code>rugs</code> (premium tier), or per-token <code>token:0x…</code></dd>
+              <dt>Source</dt><dd>Tracked pool's quote-side (USDG/WETH) reserves dropping sharply</dd>
+              <dt>Command</dt><dd><code>watch rugs [pct]</code></dd>
+              <dt>Config</dt><dd><code>HOOD_ALERTS_RUG_DEFAULT_PCT</code> (default 30%) — percent of quote reserves.</dd>
+            </dl>
+            <div class="ch-example cards">
+              <div class="card">
+                <div class="row"><span class="sym">Liquidity pull</span><span class="badge disc">rug warning</span></div>
+                <div class="prices"><span>Quote reserves dropped past your threshold</span><span>An early warning, minutes before the chart</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
-      <div class="grid">
-        <div class="feat"><span class="tag">detect</span><h3>Every event, deduped</h3><p>A single stream consumer fans out to every subscriber with per-event dedup, so you hear about a launch once, not once per pool.</p></div>
-        <div class="feat"><span class="tag">route</span><h3>Thresholds you set</h3><p>Whale floors in USD, price moves in percent, premium and rug thresholds per subscription. Watch a ticker, a token address, or the whole chain.</p></div>
-        <div class="feat"><span class="tag">respect</span><h3>Quiet hours and digests</h3><p>Batch alerts into a digest, mute overnight in your timezone, and stay under a hard per-minute cap so you are never flooded.</p></div>
-        <div class="feat"><span class="tag">group</span><h3>Group-chat ready</h3><p>Add the bot to a Telegram group or Discord server; config commands are admin-only, alerts land for everyone.</p></div>
-        <div class="feat"><span class="tag">premium</span><h3>Arb and rug detectors</h3><p>The Stock Token premium/discount signal and the liquidity-pull rug warning are the premium tier. Free tier covers launches, whales, and moves.</p></div>
-        <div class="feat"><span class="tag">host</span><h3>One container</h3><p>Engine plus both bots plus a health endpoint in a single process. Deploy to Cloud Run with min-instances 1 and go.</p></div>
-        <div class="feat"><span class="tag">broadcast</span><h3>X (Twitter), your choice of mode</h3><p>Official X API v2 (OAuth1, your own developer app) or a free self-hosted <a href="https://github.com/nirholas/XActions" target="_blank" rel="noopener">xactions</a> instance — pick whichever fits, config-driven topics, no code changes.</p></div>
+    </section>
+
+    <section id="live">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Live premium detector</div>
+          <h2>What would be alerting right now</h2>
+          <p>The Stock Token arbitrage signal, computed in your browser from the public RPC. When a token's DEX mid drifts from its Chainlink oracle, premium subscribers get a card like this.</p>
+        </div>
+        <div class="feed-meta">
+          <span>Chain head <b id="live-block">…</b></span>
+          <span><b id="live-count">…</b> markets tracked</span>
+          <span>Updated <b id="live-updated">…</b></span>
+        </div>
+        <div id="live-error" class="feed-error" style="display:none"></div>
+        <div id="live-cards" class="cards">
+          <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+        </div>
+        <p class="feed-note">Read-only, live from <code>rpc.mainnet.chain.robinhood.com</code>. Prices are already Chainlink multiplier-adjusted. This is display data, not investment advice.</p>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">How it works</div>
+          <h2>One engine. Both platforms. Your rules.</h2>
+        </div>
+        <div class="grid">
+          <div class="feat"><span class="eyebrow">detect</span><h3>Every event, deduped</h3><p>A single stream consumer fans out to every subscriber with per-event dedup, so you hear about a launch once, not once per pool.</p></div>
+          <div class="feat"><span class="eyebrow">route</span><h3>Thresholds you set</h3><p>Whale floors in USD, price moves in percent, premium and rug thresholds per subscription. Watch a ticker, a token address, or the whole chain.</p></div>
+          <div class="feat"><span class="eyebrow">respect</span><h3>Quiet hours and digests</h3><p>Batch alerts into a digest, mute overnight in your timezone, and stay under a hard per-minute cap so you are never flooded.</p></div>
+          <div class="feat"><span class="eyebrow">group</span><h3>Group-chat ready</h3><p>Add the bot to a Telegram group or Discord server; config commands are admin-only, alerts land for everyone.</p></div>
+          <div class="feat"><span class="eyebrow">premium</span><h3>Arb and rug detectors</h3><p>The Stock Token premium/discount signal and the liquidity-pull rug warning are the premium tier. Free tier covers launches, whales, and moves.</p></div>
+          <div class="feat"><span class="eyebrow">host</span><h3>One container</h3><p>Engine plus both bots plus a health endpoint in a single process. Deploy to Cloud Run with min-instances 1 and go.</p></div>
+          <div class="feat"><span class="eyebrow">broadcast</span><h3>X (Twitter), your choice of mode</h3><p>Official X API v2 (OAuth1, your own developer app) or a free self-hosted <a href="https://github.com/nirholas/XActions" target="_blank" rel="noopener">xactions</a> instance — pick whichever fits, config-driven topics, no code changes.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer>
     <div class="wrap">
@@ -117,6 +257,7 @@
     </div>
   </footer>
 
+  <script src="timeline.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

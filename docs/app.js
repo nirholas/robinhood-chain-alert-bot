@@ -5,6 +5,10 @@
   const SEL_LATEST_ROUND = '0xfeaf968c' // latestRoundData()
   const SEL_SLOT0 = '0x3850c7bd' // slot0()
   const Q192 = 2n ** 192n
+  // Uniswap v3 TickMath bounds. A pool with no liquidity in range gets pushed
+  // to (or initializes at) one of these, which is not a usable price.
+  const MIN_SQRT_RATIO = 4295128739n
+  const MAX_SQRT_RATIO = 1461446703485210103287273052203988822378723970342n
 
   const els = {
     block: document.getElementById('live-block'),
@@ -62,6 +66,10 @@
     const answer = word(feedRes, 1)
     const feedUsd = Number(answer) / 10 ** m.feedDecimals
     const sqrtP = word(slotRes, 0)
+    // Pinned at (or within 0.01% of) a TickMath bound: no liquidity in range,
+    // so slot0's price is not a real quote. Skip rather than show a garbage
+    // premium off an unusable read.
+    if (sqrtP <= (MIN_SQRT_RATIO * 10001n) / 10000n || sqrtP >= (MAX_SQRT_RATIO * 9999n) / 10000n) return null
     const price0in1 = sqrtToPrice0in1(sqrtP, m.decimals0, m.decimals1)
     if (!(price0in1 > 0)) return null
     const stockInQuote = m.stockIs0 ? price0in1 : 1 / price0in1

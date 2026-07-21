@@ -5,22 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Premium · hood-alerts</title>
   <meta name="description" content="hood-alerts premium: unlimited real-time alerts plus the Stock Token arbitrage and rug early-warning detectors, paid in USDG on Robinhood Chain via x402." />
+  <link rel="canonical" href="https://nirholas.github.io/robinhood-chain-alert-bot/premium.html" />
+  <meta name="theme-color" content="#06070a" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="hood-alerts" />
+  <meta property="og:title" content="Premium · hood-alerts" />
+  <meta property="og:description" content="Unlimited real-time alerts plus the arbitrage and rug-warning detectors, paid in USDG on Robinhood Chain via x402." />
+  <meta property="og:url" content="https://nirholas.github.io/robinhood-chain-alert-bot/premium.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Premium · hood-alerts" />
+  <meta name="twitter:description" content="5 USDG / 30 days: unlimited subscriptions, real-time delivery, the premium/discount arb signal, and the rug early-warning detector." />
+  <meta name="twitter:site" content="@nichxbt" />
+
   <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "hood-alerts",
+    "description": "hood-alerts premium: unlimited real-time alerts plus the Stock Token arbitrage and rug early-warning detectors, paid in USDG on Robinhood Chain via x402.",
+    "url": "https://nirholas.github.io/robinhood-chain-alert-bot/premium.html",
+    "codeRepository": "https://github.com/nirholas/robinhood-chain-alert-bot",
+    "softwareVersion": "0.2.0",
+    "license": "https://opensource.org/licenses/MIT",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "author": { "@type": "Person", "name": "nirholas", "url": "https://x.com/nichxbt" },
+    "offers": {
+      "@type": "Offer",
+      "price": "5",
+      "priceCurrency": "USDG",
+      "description": "Premium tier, 30 days"
+    }
+  }
+  </script>
 </head>
 <body>
-  <nav class="nav">
-    <div class="wrap">
-      <span class="brand"><span class="dot"></span> hood-alerts</span>
-      <a class="link" href="index.html">Live feed</a>
-      <a class="link hide-sm" href="commands.html">Commands</a>
-      <a class="link" href="premium.html">Premium</a>
-      <a class="link hide-sm" href="self-host.html">Self-host</a>
-      <span class="spacer"></span>
-      <a class="gh" href="https://github.com/nirholas/hood-alerts" target="_blank" rel="noopener">GitHub</a>
-    </div>
-  </nav>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <main class="wrap doc">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="dot"></span> hood-alerts</a>
+      <nav class="cornernav" aria-label="Site">
+        <a href="index.html">Live feed</a>
+        <a href="commands.html">Commands</a>
+        <a href="premium.html" aria-current="page">Premium</a>
+        <a href="self-host.html">Self-host</a>
+        <a class="gh" href="https://github.com/nirholas/robinhood-chain-alert-bot" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap doc" id="main">
     <h2>Premium</h2>
     <p class="lead">The free tier is genuinely useful. Premium removes the limits and unlocks the two detectors most worth paying for: the Stock Token arbitrage signal and the liquidity-pull rug early-warning.</p>
 
@@ -70,6 +107,9 @@ POST https://your-instance/premium/activate?platform=telegram&chat=&lt;chatId&gt
     <p>The engine is rail-agnostic. The reference build settles USDG on Robinhood Chain end-to-end; an <strong>x402 USDC-on-Base</strong> facilitator is documented as a drop-in alternative. See the <a href="self-host.html">self-host guide</a> for wiring your own <code>payTo</code>, facilitator, or self-settlement key.</p>
 
     <p class="legal">Payments buy alert-delivery entitlements only. hood402 moves USDG you already hold on Robinhood Chain; hood-alerts never takes custody and never trades on your behalf.</p>
+
+    <h3>See it on the instrument</h3>
+    <p>The two premium detectors are channels <a href="index.html#ch-premium">05</a> and <a href="index.html#ch-rugs">07</a> on the <a href="index.html#readout">signal timeline</a>.</p>
   </main>
 
   <footer>

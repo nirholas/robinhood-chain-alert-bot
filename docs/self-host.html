@@ -4,23 +4,54 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Self-host · hood-alerts</title>
-  <meta name="description" content="Run your own hood-alerts instance: one container with the engine and both bots, deploy to Google Cloud Run, wire premium payments." />
+  <meta name="description" content="Run your own hood-alerts instance: one container with the engine and both bots, deploy to Google Cloud Run, wire premium payments and the X (Twitter) transport." />
+  <link rel="canonical" href="https://nirholas.github.io/robinhood-chain-alert-bot/self-host.html" />
+  <meta name="theme-color" content="#06070a" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="hood-alerts" />
+  <meta property="og:title" content="Self-host · hood-alerts" />
+  <meta property="og:description" content="Run your own hood-alerts instance: one container with the engine and both bots, deploy to Google Cloud Run, wire premium payments." />
+  <meta property="og:url" content="https://nirholas.github.io/robinhood-chain-alert-bot/self-host.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Self-host · hood-alerts" />
+  <meta name="twitter:description" content="One container, one process: engine + Telegram + Discord + X, deployed to Cloud Run." />
+  <meta name="twitter:site" content="@nichxbt" />
+
   <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "hood-alerts",
+    "description": "Run your own hood-alerts instance: one container with the engine and both bots, deploy to Google Cloud Run, wire premium payments.",
+    "url": "https://nirholas.github.io/robinhood-chain-alert-bot/self-host.html",
+    "codeRepository": "https://github.com/nirholas/robinhood-chain-alert-bot",
+    "softwareVersion": "0.2.0",
+    "license": "https://opensource.org/licenses/MIT",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "author": { "@type": "Person", "name": "nirholas", "url": "https://x.com/nichxbt" }
+  }
+  </script>
 </head>
 <body>
-  <nav class="nav">
-    <div class="wrap">
-      <span class="brand"><span class="dot"></span> hood-alerts</span>
-      <a class="link" href="index.html">Live feed</a>
-      <a class="link hide-sm" href="commands.html">Commands</a>
-      <a class="link" href="premium.html">Premium</a>
-      <a class="link" href="self-host.html">Self-host</a>
-      <span class="spacer"></span>
-      <a class="gh" href="https://github.com/nirholas/hood-alerts" target="_blank" rel="noopener">GitHub</a>
-    </div>
-  </nav>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <main class="wrap doc">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="dot"></span> hood-alerts</a>
+      <nav class="cornernav" aria-label="Site">
+        <a href="index.html">Live feed</a>
+        <a href="commands.html">Commands</a>
+        <a href="premium.html">Premium</a>
+        <a href="self-host.html" aria-current="page">Self-host</a>
+        <a class="gh" href="https://github.com/nirholas/robinhood-chain-alert-bot" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap doc" id="main">
     <h2>Self-host</h2>
     <p class="lead">hood-alerts is one long-running process: the detection engine, an HTTP server (<code>/healthz</code> plus the premium endpoints), and both bots, each enabled by the presence of its token. It is a service, not a cron job.</p>
 
@@ -37,6 +68,7 @@ npm run build && npm start</code></pre>
 npm run probe -- --token 0xTOKEN --seconds 300</code></pre>
 
     <h3>Add the bots</h3>
+    <div class="table-scroll">
     <table>
       <thead><tr><th>Env var</th><th>How to get it</th></tr></thead>
       <tbody>
@@ -47,10 +79,12 @@ npm run probe -- --token 0xTOKEN --seconds 300</code></pre>
         <tr><td><code>HOOD_ALERTS_X_TOPICS</code></td><td>Comma-separated topics to auto-post (default <code>launches,graduations,whales</code>). No inbound X bot, so this is fixed at startup, not set via a chat command.</td></tr>
       </tbody>
     </table>
+    </div>
     <p>Each transport is optional: set only the tokens you want. The others stay disabled and log a warning.</p>
 
     <h3>Premium payments</h3>
     <p>Premium purchase endpoints stay off (returning a helpful <code>503</code>) until you set a receiving address and one settlement mode:</p>
+    <div class="table-scroll">
     <table>
       <thead><tr><th>Env var</th><th>Purpose</th></tr></thead>
       <tbody>
@@ -60,6 +94,7 @@ npm run probe -- --token 0xTOKEN --seconds 300</code></pre>
         <tr><td><code>HOOD_ALERTS_PREMIUM_PRICE_USDG</code><br /><code>HOOD_ALERTS_PREMIUM_DAYS</code></td><td>Price and duration of one purchase. Defaults: 5 USDG for 30 days.</td></tr>
       </tbody>
     </table>
+    </div>
     <div class="callout warn">Prefer facilitator mode. If you use a settler key, treat it like any hot wallet: fund it with only the ETH gas it needs, and never commit it. Every wallet key comes from the environment; nothing is read from code.</div>
 
     <p>To comp a chat or test premium delivery before wiring a rail:</p>
@@ -83,6 +118,9 @@ gcloud run deploy hood-alerts \
 
     <h3>Configuration reference</h3>
     <p>Every knob is an environment variable with a sensible default; see <code>.env.example</code> in the repo for the full annotated list, including detector thresholds (<code>HOOD_ALERTS_WHALE_FLOOR_USD</code>, <code>HOOD_ALERTS_PRICE_WINDOW_S</code>, <code>HOOD_ALERTS_RUG_DEFAULT_PCT</code>, and more).</p>
+
+    <h3>See it on the instrument</h3>
+    <p>Every env var above that tunes a detector also shows up in that channel's config on the <a href="index.html#readout">signal timeline</a> — e.g. <a href="index.html#ch-whales">whales</a>, <a href="index.html#ch-premium">premium/discount</a>, <a href="index.html#ch-rugs">liquidity pulls</a>.</p>
   </main>
 
   <footer>
