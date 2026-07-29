@@ -131,7 +131,7 @@ admins; `list`, `premium`, and `help` are open to everyone.
 | `rugs` (liquidity-pull warning) | Not available | Included |
 | Price | Free | `HOOD_ALERTS_PREMIUM_PRICE_USDG` (default 5) USDG for `HOOD_ALERTS_PREMIUM_DAYS` (default 30) days |
 
-Premium is paid on Robinhood Chain via **x402** using [`hood402`](../hood402) (USDG,
+Premium is paid on Robinhood Chain via **x402** using `hood402` (USDG,
 EIP-3009 `transferWithAuthorization`, chain 4663). The bot's `premium` command hands back a
 `POST /premium/activate?platform=...&chat=...` URL: the first request gets a 402 challenge with
 payment instructions, and any x402 client (`hood402`, `x402-fetch`) that can sign a USDG
