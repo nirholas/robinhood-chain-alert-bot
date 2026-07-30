@@ -1,7 +1,6 @@
 import { createPublicClient, createWalletClient, http, type Address } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { robinhood } from 'viem/chains'
-import type { HoodBroadcaster, HoodConfirmer } from 'hood402'
 import { PaywallEngine } from 'hood402/server'
 import type { Config } from '../config.js'
 import type { EntitlementRepo } from '../db/entitlements.js'
@@ -53,14 +52,11 @@ export class PremiumPaywall {
       const transport = http(this.config.rpcUrl)
       const reader = createPublicClient({ chain: robinhood, transport })
       const wallet = createWalletClient({ chain: robinhood, transport, account })
-      // hood402 is a local file: link with its own pinned viem; the client
-      // identities differ only at compile time (patch-level viem skew), so the
-      // structurally-correct clients are bridged to hood402's expected types.
       return new PaywallEngine({
         ...base,
-        wallet: wallet as unknown as HoodBroadcaster,
+        wallet,
         account: account.address as Address,
-        reader: reader as unknown as HoodConfirmer,
+        reader,
       })
     }
     return null

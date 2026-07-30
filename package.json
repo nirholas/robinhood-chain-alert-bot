@@ -20,7 +20,7 @@
     "type": "git",
     "url": "git+https://github.com/nirholas/robinhood-chain-alert-bot.git"
   },
-  "homepage": "https://nirholas.github.io/robinhood-chain-alert-bot/",
+  "homepage": "https://github.com/nirholas/robinhood-chain-alert-bot",
   "bugs": {
     "url": "https://github.com/nirholas/robinhood-chain-alert-bot/issues"
   },

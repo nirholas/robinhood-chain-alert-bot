@@ -90,7 +90,7 @@
     </div>
 
     <h3>How payment works</h3>
-    <p>Premium is sold over <strong>x402</strong> (the HTTP 402 payment standard) settling in <strong>USDG on Robinhood Chain</strong> through the <a href="https://github.com/nirholas/hood402" target="_blank" rel="noopener">hood402</a> rail. There is no card, no account, and no custody: your wallet signs a USDG transfer authorization and the entitlement flips the moment it settles on-chain.</p>
+    <p>Premium is sold over <strong>x402</strong> (the HTTP 402 payment standard) settling in <strong>USDG on Robinhood Chain</strong> through the <a href="https://github.com/nirholas/robinhood-chain-x402" target="_blank" rel="noopener">hood402</a> rail. There is no card, no account, and no custody: your wallet signs a USDG transfer authorization and the entitlement flips the moment it settles on-chain.</p>
     <ol>
       <li>In the bot, run <code>premium</code> to get your activation link.</li>
       <li>POST to it with any x402 client (<code>hood402</code>, <code>x402-fetch</code>). The first request returns a <code>402</code> with signed payment instructions.</li>

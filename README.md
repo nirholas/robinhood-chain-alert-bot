@@ -217,17 +217,27 @@ RPC and, for `probe`, the console transport; they need real network access and a
 offline unit suite above. `npm run grant-premium` comps or inspects a premium entitlement directly
 in the database (handy for testing premium delivery before a payment rail is wired).
 
-### Local sibling packages
+### Sibling packages
 
-`hood402`, `hoodkit`, and `hoodchain` are consumed as `file:` dependencies of the other Robinhood
-Chain repos in this workspace (`../hood402`, `../hoodkit`, `../robinhood-chain-sdk`) rather than
-their published npm versions, so a change to any of them is picked up on the next `npm install`
-here. A `file:` link keeps each sibling's own `viem` copy, so a patch-level skew (e.g. `2.55.2`
-here vs `2.55.1` in `hood402`) makes viem's structural `Chain` / `WalletClient` types diverge across
-the two copies. `src/premium/paywall.ts` bridges that boundary explicitly (casting the local viem
-clients to `hood402`'s `HoodBroadcaster` / `HoodConfirmer`), so the build stays green across a patch
-skew; the runtime objects are the same correct viem clients. Once the siblings are on npm and a
-single `viem` resolves, the cast is a no-op.
+`hoodchain`, `hoodkit`, and `hood402` are ordinary published npm dependencies, pinned by
+`package.json` and the lockfile, so `npm ci` from a clean clone is all this repo needs. Their
+sources are [`robinhood-chain-sdk`](https://github.com/nirholas/robinhood-chain-sdk),
+[`robinhood-chain-kit`](https://github.com/nirholas/robinhood-chain-kit), and
+[`robinhood-chain-x402`](https://github.com/nirholas/robinhood-chain-x402).
+
+All three declare `viem` as a peer dependency, and this repo pins `viem` to one exact version, so
+a single `viem` copy resolves for the whole tree and the client types line up on their own.
+`src/premium/paywall.ts` hands real `createWalletClient` / `createPublicClient` instances straight
+to `hood402`'s `PaywallEngine` with no cast, which is what makes a breaking change in that
+interface show up as a build failure instead of being swallowed.
+
+To develop against a local checkout of one of them, override it for your working copy only:
+
+```sh
+npm install ../robinhood-chain-x402   # or ../robinhood-chain-kit, ../robinhood-chain-sdk
+```
+
+Revert with `npm ci` before committing, so the lockfile keeps pointing at the published version.
 
 ## Deploy
 
@@ -258,8 +268,10 @@ and premium-wiring guide: the `docs/` site.
 or serve it from any static host. Its landing page renders a **live** premium/discount feed
 client-side straight from the public RPC (real Chainlink feeds vs real DEX pools, no server).
 
-- **GitHub Pages** (default, canonical home): `Settings → Pages → Deploy from a branch → main →
-  /docs` → <https://nirholas.github.io/robinhood-chain-alert-bot/>.
+- **GitHub Pages** (the intended home): `Settings → Pages → Deploy from a branch → main → /docs`
+  publishes it at <https://nirholas.github.io/robinhood-chain-alert-bot/>. Pages is not enabled on
+  this repo yet, so that URL is not live; until it is, read the pages from
+  [`docs/`](./docs/index.html) in the repo or open them locally.
 - **Cloudflare** / **Vercel**: click the buttons above — `wrangler.json`/`vercel.json` at the repo
   root point both at `docs/`, no build command needed.
 
