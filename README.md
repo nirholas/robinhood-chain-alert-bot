@@ -329,3 +329,7 @@ Dockerfile                   one-container build (engine + both bots), build fro
 MIT. See [LICENSE](./LICENSE).
 
 Built by [nirholas](https://x.com/nichxbt) · [three.ws](https://three.ws)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=nirholas/robinhood-chain-alert-bot&type=Date)](https://www.star-history.com/#nirholas/robinhood-chain-alert-bot&Date)
