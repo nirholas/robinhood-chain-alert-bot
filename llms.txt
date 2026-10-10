@@ -1,0 +1,28 @@
+# robinhood-chain-alert-bot
+
+> Real-time alert bot for Robinhood Chain - Telegram, Discord, and X (Twitter). Tracks new launches, graduations, whale trades, Stock Token premium/discount arbitrage, holder milestones, and liquidity-pull rug warnings. Free tier, x402 USDG premium.
+
+robinhood-chain-alert-bot is an open-source repository by nirholas, part of the three.ws ecosystem.
+
+## Docs
+
+- [README](https://github.com/nirholas/robinhood-chain-alert-bot/blob/HEAD/README.md): install, usage and reference
+- [What it detects](https://github.com/nirholas/robinhood-chain-alert-bot/blob/HEAD/README.md#what-it-detects)
+- [Quickstart (self-host)](https://github.com/nirholas/robinhood-chain-alert-bot/blob/HEAD/README.md#quickstart-self-host)
+- [Bot commands](https://github.com/nirholas/robinhood-chain-alert-bot/blob/HEAD/README.md#bot-commands)
+- [Free vs premium](https://github.com/nirholas/robinhood-chain-alert-bot/blob/HEAD/README.md#free-vs-premium)
+- [HTTP API](https://github.com/nirholas/robinhood-chain-alert-bot/blob/HEAD/README.md#http-api)
+- [Example: reading the alert engine's pure logic directly](https://github.com/nirholas/robinhood-chain-alert-bot/blob/HEAD/README.md#example-reading-the-alert-engines-pure-logic-directly)
+- [Configuration](https://github.com/nirholas/robinhood-chain-alert-bot/blob/HEAD/README.md#configuration)
+- [Development](https://github.com/nirholas/robinhood-chain-alert-bot/blob/HEAD/README.md#development)
+- [AGENTS.md](https://github.com/nirholas/robinhood-chain-alert-bot/blob/HEAD/AGENTS.md): guidance for coding agents
+- [Full text for LLMs](https://github.com/nirholas/robinhood-chain-alert-bot/blob/HEAD/llms-full.txt): the README inlined
+
+## Project
+
+- [Source](https://github.com/nirholas/robinhood-chain-alert-bot)
+- [Issues](https://github.com/nirholas/robinhood-chain-alert-bot/issues)
+- [Discussions](https://github.com/nirholas/robinhood-chain-alert-bot/discussions)
+- [Homepage](https://github.com/nirholas/robinhood-chain-alert-bot)
+- [three.ws](https://three.ws): the platform this is part of
+- [All repositories by nirholas](https://github.com/nirholas/nirholas#readme)

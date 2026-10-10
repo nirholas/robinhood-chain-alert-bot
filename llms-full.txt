@@ -1,3 +1,7 @@
+# robinhood-chain-alert-bot
+
+> Real-time alert bot for Robinhood Chain - Telegram, Discord, and X (Twitter). Tracks new launches, graduations, whale trades, Stock Token premium/discount arbitrage, holder milestones, and liquidity-pull rug warnings. Free tier, x402 USDG premium.
+
 # hood-alerts
 
 [![license](https://img.shields.io/badge/license-MIT-93a1af?labelColor=101418)](./LICENSE)
@@ -185,16 +189,16 @@ importing from `src/` as above works in this checkout but is not a published API
 
 Every variable, its default, and what it controls: [`.env.example`](.env.example). Highlights:
 
-- `HOOD_ALERTS_RPC_URL` — custom RPC; defaults to viem's public `robinhood` chain RPC.
-- `HOOD_ALERTS_DB` — SQLite path (subscriptions, entitlements, dedup, delivery log). `:memory:`
+- `HOOD_ALERTS_RPC_URL`: custom RPC; defaults to viem's public `robinhood` chain RPC.
+- `HOOD_ALERTS_DB`: SQLite path (subscriptions, entitlements, dedup, delivery log). `:memory:`
   works for tests.
-- `HOOD_ALERTS_WHALE_FLOOR_USD` / `HOOD_ALERTS_WHALE_DEFAULT_USD` — engine-side emission floor vs.
+- `HOOD_ALERTS_WHALE_FLOOR_USD` / `HOOD_ALERTS_WHALE_DEFAULT_USD`: engine-side emission floor vs.
   the default per-subscription threshold.
-- `HOOD_ALERTS_PRICE_WINDOW_S` / `HOOD_ALERTS_PRICE_DEFAULT_PCT` — Chainlink rolling-window move
+- `HOOD_ALERTS_PRICE_WINDOW_S` / `HOOD_ALERTS_PRICE_DEFAULT_PCT`: Chainlink rolling-window move
   detector.
-- `HOOD_ALERTS_PREMIUM_POLL_S` / `HOOD_ALERTS_PREMIUM_DEFAULT_PCT` — Stock Token arb poll cadence
+- `HOOD_ALERTS_PREMIUM_POLL_S` / `HOOD_ALERTS_PREMIUM_DEFAULT_PCT`: Stock Token arb poll cadence
   and default ladder entry.
-- `HOOD_ALERTS_RUG_DEFAULT_PCT` — default liquidity-pull threshold (percent of quote reserves).
+- `HOOD_ALERTS_RUG_DEFAULT_PCT`: default liquidity-pull threshold (percent of quote reserves).
 
 ## Development
 
@@ -204,7 +208,7 @@ npm run typecheck   # tsc --noEmit, strict + exactOptionalPropertyTypes
 npm test            # vitest: dedup/rate-limit gate, digest batching, topic parsing and
                      # matching, event fingerprinting/TTL, alert card rendering, config
                      # loading, the command router, and the subscriber/entitlement/delivery
-                     # repositories — all offline, no chain or bot credentials required
+                     # repositories: all offline, no chain or bot credentials required
 npm run build       # tsc -> dist/
 ```
 
@@ -243,7 +247,7 @@ Revert with `npm ci` before committing, so the lockfile keeps pointing at the pu
 
 hood-alerts is one long-running process (engine + HTTP server + both bots), so run it as a service
 with a warm instance, not a job. `hoodchain`/`hoodkit`/`hood402` are ordinary published npm
-dependencies (see `package.json`) — the Docker build needs no special context, just this directory:
+dependencies (see `package.json`): the Docker build needs no special context, just this directory:
 
 ```sh
 docker build -t hood-alerts .
@@ -272,7 +276,7 @@ client-side straight from the public RPC (real Chainlink feeds vs real DEX pools
   publishes it at <https://nirholas.github.io/robinhood-chain-alert-bot/>. Pages is not enabled on
   this repo yet, so that URL is not live; until it is, read the pages from
   [`docs/`](./docs/index.html) in the repo or open them locally.
-- **Cloudflare** / **Vercel**: click the buttons above — `wrangler.json`/`vercel.json` at the repo
+- **Cloudflare** / **Vercel**: click the buttons above: `wrangler.json`/`vercel.json` at the repo
   root point both at `docs/`, no build command needed.
 
 ## Architecture notes
@@ -333,26 +337,3 @@ Built by [nirholas](https://x.com/nichxbt) · [three.ws](https://three.ws)
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=nirholas/robinhood-chain-alert-bot&type=Date)](https://www.star-history.com/#nirholas/robinhood-chain-alert-bot&Date)
-
-<!-- three.ws:growth -->
-## Support the project
-
-If robinhood-chain-alert-bot saves you time, **[star it on GitHub](https://github.com/nirholas/robinhood-chain-alert-bot)**. Stars are how other developers and AI agents find the repositories worth trusting, and they cost you one click.
-
-Know someone who would use it? [Post on X](https://twitter.com/intent/tweet?text=robinhood-chain-alert-bot%3A%20Real-time%20alert%20bot%20for%20Robinhood%20Chain%20-%20Telegram%2C%20Discord%2C%20and%20X%20(Twitter)&url=https%3A%2F%2Fgithub.com%2Fnirholas%2Frobinhood-chain-alert-bot) · [Share on Bluesky](https://bsky.app/intent/compose?text=robinhood-chain-alert-bot%3A%20Real-time%20alert%20bot%20for%20Robinhood%20Chain%20-%20Telegram%2C%20Discord%2C%20and%20X%20(Twitter)%20https%3A%2F%2Fgithub.com%2Fnirholas%2Frobinhood-chain-alert-bot) · [Share on LinkedIn](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fgithub.com%2Fnirholas%2Frobinhood-chain-alert-bot) · [Submit to Hacker News](https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fgithub.com%2Fnirholas%2Frobinhood-chain-alert-bot&t=robinhood-chain-alert-bot%3A%20Real-time%20alert%20bot%20for%20Robinhood%20Chain%20-%20Telegram%2C%20Discord%2C%20and%20X%20(Twitter)) · [Share on Reddit](https://www.reddit.com/submit?url=https%3A%2F%2Fgithub.com%2Fnirholas%2Frobinhood-chain-alert-bot&title=robinhood-chain-alert-bot%3A%20Real-time%20alert%20bot%20for%20Robinhood%20Chain%20-%20Telegram%2C%20Discord%2C%20and%20X%20(Twitter))
-
-## Built for AI agents too
-
-Coding agents and LLM tooling can read this repo directly: [AGENTS.md](./AGENTS.md), [llms.txt](./llms.txt), [llms-full.txt](./llms-full.txt). Point an agent at `https://github.com/nirholas/robinhood-chain-alert-bot` and it has the context it needs.
-
-## More from the same author
-
-- [All repositories by nirholas](https://github.com/nirholas/nirholas#readme): the full catalog, grouped by topic
-- [three.ws](https://three.ws): the platform for 3D AI agents with Solana wallets, a skill marketplace and x402 payments
-- Questions or ideas: [open an issue](https://github.com/nirholas/robinhood-chain-alert-bot/issues) or [start a discussion](https://github.com/nirholas/robinhood-chain-alert-bot/discussions)
-
-## Contributors
-
-[![Contributors](https://contrib.rocks/image?repo=nirholas/robinhood-chain-alert-bot)](https://github.com/nirholas/robinhood-chain-alert-bot/graphs/contributors)
-
-<!-- /three.ws:growth -->
