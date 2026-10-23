@@ -86,13 +86,18 @@ export class AlertEngine {
     if (this.recent.length > 100) this.recent.shift()
 
     const now = nowS()
+    // A subscriber whose several subscriptions match (e.g. `whales` and `token:0x…`)
+    // gets the event once.
+    const routed = new Set<number>()
     for (const { subscription, subscriber } of this.subscribers.allWithSubscribers()) {
+      if (routed.has(subscriber.id)) continue
       const parsed = parseTopic(subscription.topic)
       if (!parsed) continue
       const premium = this.entitlements.isPremium(subscriber.platform, subscriber.chatId)
       // Premium-only topics stop matching when the entitlement lapses.
       if ((parsed.kind === 'premiums' || parsed.kind === 'rugs') && !premium) continue
       if (!matches(parsed, subscription.threshold, event)) continue
+      routed.add(subscriber.id)
 
       const decision = gate(
         {

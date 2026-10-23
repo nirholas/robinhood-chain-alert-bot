@@ -122,6 +122,17 @@ describe('AlertEngine.ingest: routing + delivery', () => {
     await vi.waitFor(() => expect(transport.alerts).toHaveLength(2))
     expect(transport.alerts.map((a) => a.chatId).sort()).toEqual(['chat-a', 'chat-b'])
   })
+
+  it('delivers an event once to a subscriber whose several subscriptions all match it', async () => {
+    const s = engine.subscribers.ensure('telegram', 'chat-1')
+    engine.subscribers.subscribe(s.id, 'whales', 5000)
+    engine.subscribers.subscribe(s.id, `token:${TOKEN.toLowerCase()}`, 5000)
+    engine.ingest(whaleEvent(6000))
+    await vi.waitFor(() => expect(transport.alerts.length).toBeGreaterThan(0))
+    await new Promise((r) => setTimeout(r, 10))
+    expect(transport.alerts).toHaveLength(1)
+    expect(engine.deliveries.recentCount(s.id, 3600)).toBe(1)
+  })
 })
 
 describe('AlertEngine.ingest: gating into digest', () => {
