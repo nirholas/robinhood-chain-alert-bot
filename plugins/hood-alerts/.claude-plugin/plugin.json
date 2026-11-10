@@ -1,0 +1,17 @@
+{
+  "name": "hood-alerts",
+  "version": "0.2.0",
+  "description": "Self-host the hood-alerts Robinhood Chain alert engine with Telegram, Discord and X transports and a health API.",
+  "author": {
+    "name": "nirholas"
+  },
+  "repository": "https://github.com/nirholas/robinhood-chain-alert-bot",
+  "homepage": "https://github.com/nirholas/robinhood-chain-alert-bot",
+  "license": "MIT",
+  "keywords": [
+    "robinhood-chain",
+    "alerts",
+    "telegram-bot",
+    "discord-bot"
+  ]
+}
