@@ -1,0 +1,21 @@
+{
+  "name": "robinhood-chain-alert-bot",
+  "owner": {
+    "name": "nirholas"
+  },
+  "description": "Self-host the hood-alerts Robinhood Chain alert engine with Telegram, Discord and X transports and a health API.",
+  "plugins": [
+    {
+      "name": "hood-alerts",
+      "source": "./plugins/hood-alerts",
+      "description": "Self-host the hood-alerts Robinhood Chain alert engine with Telegram, Discord and X transports and a health API.",
+      "category": "automation",
+      "tags": [
+        "robinhood-chain",
+        "alerts",
+        "telegram-bot",
+        "discord-bot"
+      ]
+    }
+  ]
+}
